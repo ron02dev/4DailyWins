@@ -1,0 +1,108 @@
+.calendar-container {
+  justify-self: center;
+  max-width: 90%;
+}
+
+/* 
+#4B352A - brown
+#CA7842 - orange
+#B2CD9C - teal
+#F0F2BD - gray
+*/
+
+.react-calendar {
+  padding: 10px;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  border-radius: 5px;
+
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3.3px);
+  -webkit-backdrop-filter: blur(3.3px);
+}
+
+/* NAVIGATION */
+.react-calendar__navigation {
+  display: flex;
+  font-weight: 500;
+}
+.react-calendar__navigation__arrow {
+}
+.react-calendar__navigation__prev2-button {
+}
+.react-calendar__navigation__prev-button {
+}
+.react-calendar__navigation__label {
+}
+.react-calendar__navigation__next-button {
+}
+.react-calendar__navigation__next2-button {
+}
+
+/* MONTH VIEW */
+.react-calendar__month-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 10px;
+}
+.react-calendar__month-view__weekdays abbr {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 2px solid white;
+}
+.react-calendar__month-view__weekdays__weekday {
+}
+.react-calendar__month-view__weekdays__weekday--current {
+}
+.react-calendar__month-view__weekdays__weekday--weekend {
+}
+
+/* days */
+.react-calendar__month-view__days {
+  font-weight: 500;
+}
+
+.react-calendar__month-view__days__day {
+  border: 1px solid white;
+  border-radius: 5px;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: red;
+}
+.react-calendar__month-view__days__day--weekend {
+}
+
+/* TILES */
+.react-calendar__tile {
+  background-color: rgba(250, 233, 237, 0.068);
+  padding: 10px;
+  border-radius: 7px;
+}
+.react-calendar__tile--now {
+  background-color: #b4e4ff;
+} /* Today */
+.react-calendar__tile--active {
+  background-color: #b4e4ff;
+} /* Selected */
+.react-calendar__tile--range {
+} /* In a selected range */
+.react-calendar__tile--rangeStart {
+} /* Start of a range */
+.react-calendar__tile--rangeEnd {
+} /* End of a range */
+.react-calendar__tile--rangeBothEnds {
+}
+
+.react-calendar .react-calendar__tile:hover {
+  background-color: #d9e7ec;
+}

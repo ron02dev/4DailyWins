@@ -2,14 +2,16 @@ import EmotionalTopic from "./EmotionalTopic";
 import MentalTopic from "./MentalTopic";
 import PhysicalTopic from "./PhysicalTopic";
 import SpiritualTopic from "./SpiritualTopic";
-
+import "../../css/topic.css";
 export default function Topics() {
   return (
     <>
-      <MentalTopic />
-      <PhysicalTopic />
-      <SpiritualTopic />
-      <EmotionalTopic />
+      <div className="topic-container">
+        <MentalTopic />
+        <PhysicalTopic />
+        <SpiritualTopic />
+        <EmotionalTopic />
+      </div>
     </>
   );
 }
