@@ -1,0 +1,18 @@
+@import "tailwindcss";
+body{
+      
+       background-color: #4B352A;
+       color: white;
+       padding: 0;
+}
+
+
+*{
+       border: 1px solid white;
+}
+/* 
+#4B352A - brown
+#CA7842 - orange
+#B2CD9C - teal
+#F0F2BD - gray
+*/

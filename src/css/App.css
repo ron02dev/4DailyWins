@@ -1,0 +1,41 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.content-aside {
+  border-right: 1px solid white;
+  border-radius: 5px;
+  min-width: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.content header {
+  display: flex;
+  height: 50px;
+  justify-content: space-around;
+}
+
+.topic-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  padding: 15px;
+  gap: 15px;
+}
+
+.topic-content {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid white;
+}
