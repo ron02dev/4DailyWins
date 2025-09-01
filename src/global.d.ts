@@ -5,28 +5,24 @@ declare global {
    *~ existing declarations in the global namespace
    */
 
-  type WinNames = "mental" | "physical" | "emotional" | "spiritual";
+  type win_names = "mental" | "physical" | "emotional" | "spiritual";
 
   interface Win {
-    win_id: number;   
-    winName: WinNames;
-    task: string[];
-    created_at: Date; // or string if you prefer ISO format
+    win_id: number;
+    win_name: win_names;
+    task_done: string[];
+    created_at: string; // or string if you prefer ISO format
   }
 
   // USEREDUCERS
   interface InitialState {
-    wins: Win[]; // Array of daily wins
-    isFetching: boolean;
-    serverMessage: string;
+    wins: Win[];
+    created_at: string; // Array of daily wins
   }
 
   type ACTIONTYPE =
     | { type: "SET_LOAD"; payload: boolean }
-    | { type: "LOAD_WINS"; payload: WinType[] }
-    | { type: "CREATE_WIN"; payload: WinType }
-    | { type: "EDIT_WIN"; payload: WinType }
-    | { type: "SET_MESSAGE"; payload: string | "" };
+    | { type: "LOG_WINS"; payload: Win[]; created_at : string };
 
   // CONTEXT REFERENCE
   interface TodoContextType {

@@ -16,11 +16,11 @@
   flex: 1;
 }
 
-
-
-.content header {
+.content-header {
   display: flex;
-  height: 50px;
-  justify-content: space-around;
+  padding: 15px;
+  height: 10%;
+  justify-content: center;
 }
+
 
