@@ -7,11 +7,18 @@ declare global {
 
   type win_names = "mental" | "physical" | "emotional" | "spiritual";
 
+
+  interface DailyWin {
+    wins : Win[];
+    wins_completed: number;
+    date_logged : string;
+  }
+
   interface Win {
     win_id: number;
     win_name: win_names;
     task_done: string[];
-    created_at: string; // or string if you prefer ISO format
+// or string if you prefer ISO format
   }
 
   // USEREDUCERS

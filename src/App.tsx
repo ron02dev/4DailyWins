@@ -3,6 +3,7 @@ import useDate from "./hooks/useDate";
 import { useEffect, useReducer } from "react";
 import Topics from "./components/content/Topics";
 import "./css/App.css";
+import useDB from "./hooks/useDB";
 
 const initialAppData: InitialState = {
   wins: [],
@@ -26,44 +27,53 @@ function reducer(
 }
 // ---------------------------------------------------app
 function App() {
-  const [appData, dispatch] = useReducer(reducer, initialAppData);
-  const { getCurrentDate } = useDate();
+  const [appData] = useReducer(reducer, initialAppData);
+  const { getDMY } = useDate();
+  const { openDB, addDailyWin } = useDB();
+
+  // TEST DATA
+  const currentWins: Win[] = [
+    {
+      win_id: 1,
+      win_name: "mental",
+      task_done: ["mental", "mental"],
+    },
+    {
+      win_id: 2,
+      win_name: "physical",
+      task_done: ["phytodo", "phytodo"],
+    },
+    {
+      win_id: 3,
+      win_name: "spiritual",
+      task_done: ["spiritual", "spiritual"],
+    },
+    {
+      win_id: 4,
+      win_name: "emotional",
+      task_done: ["emotional", "emotional"],
+    },
+  ];
+
+  // TEST DATA
+  const dailyWin: DailyWin = {
+    wins: currentWins,
+    wins_completed: 0,
+    date_logged: "9/3/2025",
+  };
 
   function handleLog() {
-    console.log("LOG WINS");
-    const wins: Win[] = [
-      {
-        win_id: 1,
-        win_name: "mental",
-        task_done: ["mental", "mental"],
-        created_at: getCurrentDate(),
-      },
-      {
-        win_id: 2,
-        win_name: "physical",
-        task_done: ["phytodo", "phytodo"],
-        created_at: getCurrentDate(),
-      },
-      {
-        win_id: 3,
-        win_name: "spiritual",
-        task_done: ["spiritual", "spiritual"],
-        created_at: getCurrentDate(),
-      },
-      {
-        win_id: 4,
-        win_name: "emotional",
-        task_done: ["emotional", "emotional"],
-        created_at: getCurrentDate(),
-      },
-    ];
-    const created_at = getCurrentDate();
-    dispatch({ type: "LOG_WINS", payload: wins, created_at });
+    addDailyWin(dailyWin);
+    // dispatch({ type: "LOG_WINS", payload: wins, created_at });
   }
 
   useEffect(() => {
-    console.log(appData);
+    // console.log(appData);
   }, [appData]);
+
+  useEffect(() => {
+    console.log("DB CONNECTION OPEN");
+  }, [openDB]);
 
   return (
     <>

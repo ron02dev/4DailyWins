@@ -1,7 +1,8 @@
 import "../css/aside.css";
 import "../css/calendar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
+import useDB from "../hooks/useDB";
 
 type ValuePiece = Date | null;
 
@@ -11,10 +12,7 @@ export default function Aside() {
   return (
     <div className="content-aside">
       <section>
-        
-          <h1 className="aside-title">4 Daily Wins</h1>
-        
-       
+        <h1 className="aside-title">4 Daily Wins</h1>
 
         <CalendarContainer />
       </section>
@@ -24,14 +22,43 @@ export default function Aside() {
 
 function CalendarContainer() {
   const [value, onChange] = useState<Value>(new Date());
+  const [wonDates, setWonDates] = useState<string[] | null>();
+  const { getDailyWins } = useDB();
+
+  useEffect(() => {
+    async function fetchWonDays() {
+      
+      const wonDays: any[] = await getDailyWins();
+
+      const days = wonDays.map((data) => data.dailyWin.date_logged);
+
+      setWonDates(days);
+    }
+    fetchWonDays();
+  }, []);
+
   return (
     <div className="calendar-container">
       <Calendar
-        onChange={onChange}
         value={value}
-        calendarType="hebrew"
-        locale="en-US"
+        onChange={onChange}
+        tileClassName={({ date, view }) => {
+          if (view === "month" && wonDates) {
+            // Format the date to match your wonDates format
+            const formatted = date.toLocaleDateString();
+            if (wonDates.includes(formatted)) {
+              return "highlight";
+            }
+          }
+        }}
       />
+      <style>
+        {`
+          .highlight {
+            background: #b4e4ff; !important;   
+          }
+        `}
+      </style>
     </div>
   );
 }
