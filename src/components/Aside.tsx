@@ -2,7 +2,7 @@ import "../css/aside.css";
 import "../css/calendar.css";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
-import useDB from "../hooks/useDB";
+import { useDailyWinContext } from "../App";
 
 type ValuePiece = Date | null;
 
@@ -23,19 +23,13 @@ export default function Aside() {
 function CalendarContainer() {
   const [value, onChange] = useState<Value>(new Date());
   const [wonDates, setWonDates] = useState<string[] | null>();
-  const { getDailyWins } = useDB();
+  const { appData } = useDailyWinContext();
 
   useEffect(() => {
-    async function fetchWonDays() {
-      
-      const wonDays: any[] = await getDailyWins();
-
-      const days = wonDays.map((data) => data.dailyWin.date_logged);
-
-      setWonDates(days);
-    }
-    fetchWonDays();
-  }, []);
+    const wonDays: any[] = appData.allWins;
+    const days = wonDays.map((data) => data.date_logged);
+    setWonDates(days);
+  }, [appData]);
 
   return (
     <div className="calendar-container">

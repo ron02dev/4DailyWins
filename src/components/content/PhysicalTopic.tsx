@@ -1,8 +1,21 @@
-export default function PhysicalTopic() {
+import { useState } from "react";
 
- return (
+import TopicHandler from "../TopicHandler";
+
+export default function PhysicalTopic() {
+  const [task, setTask] = useState<string | null>("");
+
+  function handleChange(e: any) {
+    setTask(e.target.value);
+  }
+  return (
     <div className="topic-content">
-      <h3>Physical</h3>
+      <p className="topic-title">Physical Wins</p>
+      <TopicHandler
+        win_type="physical"
+        onHandleChange={handleChange}
+        task_done={task ?? ""}
+      />
     </div>
   );
 }

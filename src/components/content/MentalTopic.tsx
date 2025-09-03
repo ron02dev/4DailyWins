@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import Notes from "./Notes";
+import { useState } from "react";
+
+import TopicHandler from "../TopicHandler";
 
 export default function MentalTopic() {
-  const [task, setTask] = useState<string[] | null>(null);
+  const [mentalTask, setMentalTask] = useState<string | null>("");
 
-  function handleCreate(input: string) {
-    setTask((prev) => (prev ? [...prev, input] : [input]));
+  function handleChange(e: any) {
+    setMentalTask(e.target.value);
   }
-
-  useEffect(() => {
-    console.log(task);
-  }, [task]);
   return (
     <div className="topic-content">
-      <input type="checkbox" id="mental-check" />
-      <label htmlFor="mental-check">Mental Win</label>
-      <Notes />
+      <p className="topic-title">Mental Wins</p>
+      <TopicHandler
+        win_type="mental"
+        onHandleChange={handleChange}
+        task_done={mentalTask ?? ""}
+      />
     </div>
   );
 }

@@ -35,3 +35,47 @@
 .topic-container div:nth-child(4) {
   background-color: #fd2b067a;
 }
+
+
+.topic-container section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  gap: 5px;
+}
+
+.topic-container textarea {
+  font-weight: 600;
+  background-color: rgba(0, 0, 0, 0);
+}
+.topic-container span {
+  display: flex;
+  gap: 5px;
+}
+
+.topic-container span input[type="checkbox"] {
+  width: 20px; /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
+}
+
+.topic-container .disabled {
+  background-color: rgba(86, 89, 92, 0);
+  outline: none;
+  border: none;
+  color: rgb(158, 155, 155);
+}
+
+.checkbox-title {
+  font-weight: 700;
+}
+
+.checkbox-title.success {
+  color: rgb(0, 0, 0);
+}
+
+.topic-title {
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+}

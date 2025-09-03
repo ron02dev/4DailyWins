@@ -25,13 +25,14 @@ export default function useDB() {
   async function addDailyWin(dailyWin: DailyWin) {
     const db = await openDB();
     return new Promise((resolve, reject) => {
+      // reject(new Error("Forced failure for test"));
       const tx = db.transaction(STORE_NAME, "readwrite");
       const store = tx.objectStore(STORE_NAME);
 
       const request = store.add({ dailyWin });
 
       request.onsuccess = () => {
-        resolve(request.result); // this is the new id
+        resolve(request.result);
       };
 
       request.onerror = () => {

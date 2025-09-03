@@ -23,14 +23,13 @@
   justify-content: center;
 }
 
-
-.input{
-  border: 1px solid white;
-}
-
-textarea{
-resize: both;
-outline: none;
-background-color: rgba(0, 0, 0, 0);
-padding: 5px;
+.textarea {
+  resize: both;
+  outline: none;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box; /* Crucial for width with parent padding */
+  resize: none;
 }

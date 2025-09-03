@@ -5,34 +5,38 @@ declare global {
    *~ existing declarations in the global namespace
    */
 
-  type win_names = "mental" | "physical" | "emotional" | "spiritual";
-
-
-  interface DailyWin {
-    wins : Win[];
-    wins_completed: number;
-    date_logged : string;
-  }
+  type win_type = "mental" | "physical" | "emotional" | "spiritual";
 
   interface Win {
-    win_id: number;
-    win_name: win_names;
-    task_done: string[];
-// or string if you prefer ISO format
+    win_type: win_type;
+    task_done: string;
+    // or string if you prefer ISO format
+  }
+
+  interface DailyWin {
+    wins: Win[];
+    wins_completed: number;
+    date_logged: string;
   }
 
   // USEREDUCERS
   interface InitialState {
+    dailyWin: DailyWin;
     wins: Win[];
-    created_at: string; // Array of daily wins
+    allWins: DailyWin[];
+    isFetching: boolean;
+    serverMessage: string;
   }
 
   type ACTIONTYPE =
-    | { type: "SET_LOAD"; payload: boolean }
-    | { type: "LOG_WINS"; payload: Win[]; created_at : string };
+    | { type: "SET_SERVER_MESSAGE"; payload: string }
+    | { type: "LOAD_ALL_WINS"; payload: DailyWin[] }
+    | { type: "LOG_WIN"; payload: Win }
+    | { type: "REMOVE_WIN"; payload: win_type }
+    | { type: "LOG_DAILY_WIN"; payload: DailyWin };
 
   // CONTEXT REFERENCE
-  interface TodoContextType {
+  interface DailyWinContext {
     appData: InitialState;
     dispatch: React.Dispatch<Action>;
   }
