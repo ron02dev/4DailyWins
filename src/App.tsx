@@ -6,7 +6,7 @@ import "./css/App.css";
 import useDB from "./hooks/useDB";
 import useDate from "./hooks/useDate";
 
-// REDUCER FUNCTIONS
+// INITIALIZED DATA FOR REDUCER
 const initialAppData: InitialState = {
   dailyWin: {
     wins: [],
@@ -17,8 +17,10 @@ const initialAppData: InitialState = {
   allWins: [],
   isFetching: false,
   serverMessage: "",
+  messageType: "",
 };
 
+// REDUCER FUNCTIONS
 function reducer(
   state: typeof initialAppData,
   action: ACTIONTYPE
@@ -49,17 +51,18 @@ function reducer(
     case "SET_SERVER_MESSAGE":
       return {
         ...state,
-        serverMessage: action.payload,
+        serverMessage: action.payload.serverMessage ?? "",
+        messageType: action.payload.messageType ?? "",
       };
     default:
       return state;
   }
 }
 
-// DEFINE CONTEXT
+// CONTEXT INITIALIZED
 const DailyWinContext = createContext<DailyWinContext | null>(null);
 
-// ---------------------------------------------------app
+// APP--APP--APP--APP--APP
 function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
   const { getDMY } = useDate();
@@ -67,41 +70,58 @@ function App() {
 
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
+    // compile all wins
     const compiledDailyWin: DailyWin = {
       wins: appData.wins,
       wins_completed: appData.wins.length,
       date_logged: getDMY(),
     };
+
+    // if wins has value
     if (appData.wins.length > 0) {
       try {
         const resp = await addDailyWin(compiledDailyWin);
-        console.log(resp, "v12312");
+        console.log(resp, "resp");
         dispatch({ type: "LOG_DAILY_WIN", payload: compiledDailyWin });
         dispatch({
           type: "SET_SERVER_MESSAGE",
-          payload: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
+          payload: {
+            serverMessage: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
+            messageType: "success",
+          },
         });
       } catch (handleLogDailyWinError) {
         console.log(handleLogDailyWinError);
         dispatch({
           type: "SET_SERVER_MESSAGE",
-          payload: "Something went wrong on our side. Please try again later.",
+          payload: {
+            serverMessage:
+              "Something went wrong on our side. Please try again later.",
+            messageType: "error",
+          },
         });
       }
     } else {
       dispatch({
         type: "SET_SERVER_MESSAGE",
-        payload: "No wins logged",
+        payload: { serverMessage: "No Wins Logged", messageType: "warning" },
       });
     }
   }
 
   // DISSAPEARING MESSAGES
   useEffect(() => {
-    setTimeout(
-      () => dispatch({ type: "SET_SERVER_MESSAGE", payload: "" }),
-      2000
+    const messageDelay = setTimeout(
+      () =>
+        dispatch({
+          type: "SET_SERVER_MESSAGE",
+          payload: { serverMessage: "", messageType: "" },
+        }),
+      5000
     );
+    return () => {
+      clearTimeout(messageDelay);
+    };
   }, [appData.serverMessage]);
 
   useEffect(() => {
@@ -109,7 +129,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(appData.wins, "APP.TSX");
+    console.log(appData.wins, "APP.TSX:{value:appData.Wins} ");
   }, [appData]);
 
   async function getWinsFromDB() {
@@ -130,10 +150,12 @@ function App() {
 
           <div className="content">
             <header className="content-header">
-              <button onClick={handleLogDailyWin} className="btn log-btn">
+              <button onClick={handleLogDailyWin} className="log-btn">
                 Log Wins
               </button>
-              <p>{appData.serverMessage}</p>
+              <p className={`server-message ${appData.messageType}`}>
+                {appData.serverMessage}
+              </p>
             </header>
 
             <Topics />

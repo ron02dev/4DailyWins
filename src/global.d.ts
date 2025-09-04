@@ -6,7 +6,7 @@ declare global {
    */
 
   type win_type = "mental" | "physical" | "emotional" | "spiritual";
-
+  type messageType = "success" | "loading" | "error" | "warning" | "";
   interface Win {
     win_type: win_type;
     task_done: string;
@@ -26,10 +26,14 @@ declare global {
     allWins: DailyWin[];
     isFetching: boolean;
     serverMessage: string;
+    messageType: string;
   }
 
   type ACTIONTYPE =
-    | { type: "SET_SERVER_MESSAGE"; payload: string }
+    | {
+        type: "SET_SERVER_MESSAGE";
+        payload: { serverMessage: string; messageType?: string };
+      }
     | { type: "LOAD_ALL_WINS"; payload: DailyWin[] }
     | { type: "LOG_WIN"; payload: Win }
     | { type: "REMOVE_WIN"; payload: win_type }

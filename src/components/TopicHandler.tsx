@@ -4,61 +4,111 @@ import { useDailyWinContext } from "../App";
 interface Props extends Win {
   win_type: win_type;
   task_done: string;
-  onHandleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  setTask: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function Checkbox({
-  win_type,
-  task_done,
-  onHandleChange,
-}: Props) {
+export default function Checkbox({ win_type, task_done, setTask }: Props) {
   const { dispatch } = useDailyWinContext();
   const [isChecked, setIsChecked] = useState<boolean | false>(false);
-  const mentalWin: Win = {
-    win_type: win_type,
-    task_done: task_done,
+
+  // SUBMIT THE WIN ON REDUCER
+  function submitWin() {
+    // SANITIZE VALUE
+    const taskValue = task_done.trim();
+    const sanitizedText = taskValue.replace(/\r?\n/g, "");
+    if (taskValue.length > 3) {
+      // COMPILED WIN ON CERTAIN CATEGORY
+      const win: Win = {
+        win_type: win_type,
+        task_done: sanitizedText,
+      };
+      dispatch({ type: "LOG_WIN", payload: win });
+      dispatch({
+        type: "SET_SERVER_MESSAGE",
+        payload: {
+          serverMessage: `${win_type} win logged`,
+          messageType: "success",
+        },
+      });
+    } else {
+      console.log("this is run");
+      dispatch({
+        type: "SET_SERVER_MESSAGE",
+        payload: {
+          serverMessage: `Invalid task logged, ${win_type} win not logged`,
+          messageType: "error",
+        },
+      });
+      setIsChecked(false);
+    }
+  }
+
+  const handleCheckboxChange = (event: any) => {
+    setIsChecked(event.target.checked);
+
+    if (!isChecked) {
+      submitWin();
+    } else {
+      console.log("UNSUBMIT");
+      removeWin();
+    }
   };
 
-  function submitWin() {
-    dispatch({ type: "LOG_WIN", payload: mentalWin });
-  }
+  // REMOVE THE WIN ON REDUCER
   function removeWin() {
-    console.log("remove")
+    console.log("remove");
     dispatch({ type: "REMOVE_WIN", payload: win_type });
+    dispatch({
+      type: "SET_SERVER_MESSAGE",
+      payload: {
+        serverMessage: `${win_type} win un-logged`,
+        messageType: "warning",
+      },
+    });
   }
+
+  function handleClear() {
+    if (!isChecked) {
+      setTask("");
+    } else {
+    }
+  }
+
+  function HandleChange(e: any) {
+    setTask(e.target.value);
+  }
+
   return (
     <section className={`${win_type}-section section`}>
-      <span>
-        <input
-          type="checkbox"
-          onChange={(e) => {
-            if (e.target.checked) {
-              submitWin();
-              setIsChecked(true);
-            } else {
-              removeWin();
-              setIsChecked(false);
-            }
-          }}
-          id={`${win_type}-checkbox`}
-        />
-        {isChecked ? (
-          <p className="checkbox-title  success">
-            {win_type.toUpperCase()} WIN LOGGED!
-          </p>
-        ) : (
-          <p className="checkbox-title "> LOG {win_type.toUpperCase()} WIN</p>
-        )}
+      <span className="controls-span">
+        <span className="checkbox-span">
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+            id={`${win_type}-checkbox`}
+          />
+          {isChecked ? (
+            <p className="checkbox-title  success">
+              {win_type.toUpperCase()} WIN LOGGED!
+            </p>
+          ) : (
+            <p className="checkbox-title "> LOG {win_type.toUpperCase()} WIN</p>
+          )}
+        </span>
+
+        <button className="clear-text-btn" onClick={handleClear}>
+          Clear Text
+        </button>
       </span>
 
       <textarea
+        maxLength={500}
         id={`${win_type}-textarea`}
         className={`textarea ${win_type} ${isChecked ? " disabled" : ""}`}
         disabled={isChecked}
-        onChange={(e) => onHandleChange(e)}
-        defaultValue={
-          "log something here according to your wins.... example -go for a walk"
-        }
+        value={task_done}
+        onChange={(e) => HandleChange(e)}
       />
     </section>
   );
