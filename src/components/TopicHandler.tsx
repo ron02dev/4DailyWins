@@ -24,7 +24,7 @@ export default function Checkbox({
   }
   function removeWin() {
     console.log("remove")
-    dispatch({ type: "REMOVE_WIN", payload: "mental" });
+    dispatch({ type: "REMOVE_WIN", payload: win_type });
   }
   return (
     <section className={`${win_type}-section section`}>

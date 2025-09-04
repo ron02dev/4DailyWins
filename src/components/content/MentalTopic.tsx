@@ -3,10 +3,10 @@ import { useState } from "react";
 import TopicHandler from "../TopicHandler";
 
 export default function MentalTopic() {
-  const [mentalTask, setMentalTask] = useState<string | null>("");
+  const [task, setTask] = useState<string | null>("");
 
   function handleChange(e: any) {
-    setMentalTask(e.target.value);
+    setTask(e.target.value);
   }
   return (
     <div className="topic-content">
@@ -14,7 +14,7 @@ export default function MentalTopic() {
       <TopicHandler
         win_type="mental"
         onHandleChange={handleChange}
-        task_done={mentalTask ?? ""}
+        task_done={task ?? ""}
       />
     </div>
   );
