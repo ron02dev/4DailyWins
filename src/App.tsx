@@ -153,9 +153,7 @@ function App() {
               <button onClick={handleLogDailyWin} className="log-btn">
                 Log Wins
               </button>
-              <p className={`server-message ${appData.messageType}`}>
-                {appData.serverMessage}
-              </p>
+             
             </header>
 
             <Topics />

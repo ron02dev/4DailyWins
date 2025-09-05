@@ -21,19 +21,26 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+
+/* MENTAL DIV */
 .topic-container div:nth-child(1) {
-  background-color: #6af36a46;
+  background-color: #ff7474;
 }
+
+/* PHYSICAL DIV */
 
 .topic-container div:nth-child(2) {
-  background-color: #79260d52;
-}
-.topic-container div:nth-child(3) {
-  background-color: #b4eaff52;
+ background-color: #f18063e5;
 }
 
+/* SPIRITUAL DIV */
+.topic-container div:nth-child(3) {
+  background-color: #86bff5e5;
+}
+
+/* EMOTIONAL DIV */
 .topic-container div:nth-child(4) {
-  background-color: #fd2b067a;
+  background-color: #b186f5e5;
 }
 
 .topic-container section {
@@ -41,14 +48,15 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  gap: 5px;
+  gap: 15px;
   height: 70%;
 }
 
 .topic-container textarea {
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid white;
+ border-top: 1px solid white;
+  border-bottom: 1px solid white;
 }
 .topic-container .controls-span {
   display: flex;
@@ -72,7 +80,7 @@
   background-color: rgba(86, 89, 92, 0);
   outline: none;
   border: none;
-  color: rgb(158, 155, 155);
+  color: rgba(49, 49, 49, 0.589);
 }
 
 .checkbox-title {

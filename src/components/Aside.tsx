@@ -9,6 +9,7 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function Aside() {
+  const { appData } = useDailyWinContext();
   return (
     <div className="content-aside">
       <section>
@@ -16,6 +17,9 @@ export default function Aside() {
 
         <CalendarContainer />
       </section>
+      <p className={`server-message ${appData.messageType}`}>
+        {appData.serverMessage.toUpperCase()}
+      </p>
     </div>
   );
 }
@@ -49,7 +53,7 @@ function CalendarContainer() {
       <style>
         {`
           .highlight {
-            background: #b4e4ff; !important;   
+            background: #54c0ff;  !important;   
           }
         `}
       </style>

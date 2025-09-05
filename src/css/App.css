@@ -19,8 +19,9 @@
 .content-header {
   display: flex;
   padding: 5px;
-  height: 5%;
+  height: 50px;
   justify-content: center;
+  align-items: center;
 }
 
 .server-message {
@@ -57,5 +58,8 @@
 .log-btn {
   border: 1px solid white;
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 10px;
+  background-color: rgb(157, 216, 255);
+  font-weight: 700;
+
 }
