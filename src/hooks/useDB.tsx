@@ -12,7 +12,7 @@ export default function useDB() {
         if (!db.objectStoreNames.contains(STORE_NAME)) {
           db.createObjectStore(STORE_NAME, {
             keyPath: "id",
-            autoIncrement: true,
+            autoIncrement: false,
           });
         }
       };
@@ -25,23 +25,44 @@ export default function useDB() {
   async function addDailyWin(dailyWin: DailyWin) {
     const db = await openDB();
     return new Promise((resolve, reject) => {
-      // reject(new Error("Forced failure for test"));
       const tx = db.transaction(STORE_NAME, "readwrite");
       const store = tx.objectStore(STORE_NAME);
 
-      const request = store.add({ dailyWin });
+      const getRequest = store.get(dailyWin.date_logged);
 
-      request.onsuccess = () => {
-        resolve(request.result);
+      getRequest.onsuccess = () => {
+        if (getRequest.result === undefined) {
+          // Doesn't exist, add new
+          const addRequest = store.add({ id: dailyWin.date_logged, dailyWin });
+          addRequest.onsuccess = () => resolve(addRequest.result);
+          addRequest.onerror = () => reject(addRequest.error);
+        } else {
+          // Exists, update
+          const putRequest = store.put({ id: dailyWin.date_logged, dailyWin });
+          putRequest.onsuccess = () => resolve(putRequest.result);
+          putRequest.onerror = () => reject(putRequest.error);
+        }
       };
 
-      request.onerror = () => {
-        reject(request.error);
+      getRequest.onerror = () => {
+        reject(getRequest.error);
       };
     });
   }
 
-  async function getDailyWins(month?: string): Promise<any[]> {
+  async function removeDailyWin(id: string) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+
+      const request = store.delete(id);
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+  async function getDailyWins(): Promise<any[]> {
     const db = await openDB();
     return new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, "readonly");
@@ -59,5 +80,5 @@ export default function useDB() {
     });
   }
 
-  return { openDB, addDailyWin, getDailyWins };
+  return { openDB, addDailyWin, getDailyWins, removeDailyWin };
 }

@@ -93,7 +93,8 @@
  
 } /* Today */
 .react-calendar__tile--active {
-  background-color: #b4e4ff;
+  background-color: #c5e1fc;
+  /* background-color: #78baf7; */
 } /* Selected */
 .react-calendar__tile--range {
 } /* In a selected range */

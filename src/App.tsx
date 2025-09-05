@@ -26,6 +26,13 @@ function reducer(
   action: ACTIONTYPE
 ): InitialState {
   switch (action.type) {
+    case "REMOVE_FROM_ALL_WINS":
+      return {
+        ...state,
+        allWins: state.allWins.filter(
+          (win) => win.date_logged !== action.payload
+        ),
+      };
     case "LOG_DAILY_WIN":
       return {
         ...state,
@@ -36,6 +43,11 @@ function reducer(
       return {
         ...state,
         allWins: action.payload,
+      };
+    case "ADD_TO_ALL_WINS":
+      return {
+        ...state,
+        allWins: [...state.allWins, action.payload],
       };
     case "LOG_WIN":
       return {
@@ -66,15 +78,16 @@ const DailyWinContext = createContext<DailyWinContext | null>(null);
 function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
   const { getDMY } = useDate();
-  const { addDailyWin, getDailyWins } = useDB();
+  const { addDailyWin, getDailyWins, removeDailyWin } = useDB();
 
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
     // compile all wins
+
     const compiledDailyWin: DailyWin = {
       wins: appData.wins,
       wins_completed: appData.wins.length,
-      date_logged: getDMY(),
+      date_logged: "9/8/2025",
     };
 
     // if wins has value
@@ -83,6 +96,7 @@ function App() {
         const resp = await addDailyWin(compiledDailyWin);
         console.log(resp, "resp");
         dispatch({ type: "LOG_DAILY_WIN", payload: compiledDailyWin });
+        dispatch({ type: "ADD_TO_ALL_WINS", payload: compiledDailyWin });
         dispatch({
           type: "SET_SERVER_MESSAGE",
           payload: {
@@ -102,9 +116,17 @@ function App() {
         });
       }
     } else {
+      removeDailyWin(getDMY());
+      dispatch({
+        type: "REMOVE_DAILY_WIN",
+        payload: getDMY(),
+      });
       dispatch({
         type: "SET_SERVER_MESSAGE",
-        payload: { serverMessage: "No Wins Logged", messageType: "warning" },
+        payload: {
+          serverMessage: `No wins logged`,
+          messageType: "warning",
+        },
       });
     }
   }
@@ -117,7 +139,7 @@ function App() {
           type: "SET_SERVER_MESSAGE",
           payload: { serverMessage: "", messageType: "" },
         }),
-      5000
+      1000
     );
     return () => {
       clearTimeout(messageDelay);
@@ -153,7 +175,6 @@ function App() {
               <button onClick={handleLogDailyWin} className="log-btn">
                 Log Wins
               </button>
-             
             </header>
 
             <Topics />

@@ -31,7 +31,7 @@ function CalendarContainer() {
 
   useEffect(() => {
     const wonDays: any[] = appData.allWins;
-    const days = wonDays.map((data) => data.date_logged);
+    const days = wonDays.map((data) => data.id);
     setWonDates(days);
   }, [appData]);
 
@@ -44,6 +44,7 @@ function CalendarContainer() {
           if (view === "month" && wonDates) {
             // Format the date to match your wonDates format
             const formatted = date.toLocaleDateString();
+
             if (wonDates.includes(formatted)) {
               return "highlight";
             }
@@ -53,7 +54,7 @@ function CalendarContainer() {
       <style>
         {`
           .highlight {
-            background: #54c0ff;  !important;   
+            background-color: #78baf7;  !important;   
           }
         `}
       </style>

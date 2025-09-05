@@ -37,7 +37,9 @@ declare global {
     | { type: "LOAD_ALL_WINS"; payload: DailyWin[] }
     | { type: "LOG_WIN"; payload: Win }
     | { type: "REMOVE_WIN"; payload: win_type }
-    | { type: "LOG_DAILY_WIN"; payload: DailyWin };
+    | { type: "LOG_DAILY_WIN"; payload: DailyWin }
+    | { type: "ADD_TO_ALL_WINS"; payload: DailyWin }
+    | { type: "REMOVE_FROM_ALL_WINS"; payload: string };
 
   // CONTEXT REFERENCE
   interface DailyWinContext {

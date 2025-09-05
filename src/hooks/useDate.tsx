@@ -4,7 +4,7 @@ export default function useDate() {
     const year = now.getFullYear();
     const month = now.getMonth();
     const day = now.getDay();
-    return `${month}/${day}/${year}`;
+    return `${month + 1}/${day}/${year}`;
   }
 
   return { getDMY };
