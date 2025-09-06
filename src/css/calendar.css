@@ -82,19 +82,20 @@
 .react-calendar__month-view__days__day--weekend {
 }
 
+
+
+
 /* TILES */
 .react-calendar__tile {
-
- 
   padding: 10px;
   border-radius: 7px;
 }
 .react-calendar__tile--now {
- 
+  /* background-color: #c5e1fc; */
 } /* Today */
 .react-calendar__tile--active {
-  background-color: #c5e1fc;
-  /* background-color: #78baf7; */
+  background-color: #b3faf08f;
+    
 } /* Selected */
 .react-calendar__tile--range {
 } /* In a selected range */
@@ -108,3 +109,4 @@
 .react-calendar .react-calendar__tile:hover {
   background-color: #d9e7ec;
 }
+

@@ -18,6 +18,7 @@ const initialAppData: InitialState = {
   isFetching: false,
   serverMessage: "",
   messageType: "",
+  activeDates: [],
 };
 
 // REDUCER FUNCTIONS
@@ -26,46 +27,56 @@ function reducer(
   action: ACTIONTYPE
 ): InitialState {
   switch (action.type) {
-    case "REMOVE_FROM_ALL_WINS":
-      return {
-        ...state,
-        allWins: state.allWins.filter(
-          (win) => win.date_logged !== action.payload
-        ),
-      };
-    case "LOG_DAILY_WIN":
-      return {
-        ...state,
-        dailyWin: action.payload,
-        allWins: [...state.allWins, action.payload],
-      };
     case "LOAD_ALL_WINS":
       return {
         ...state,
         allWins: action.payload,
-      };
-    case "ADD_TO_ALL_WINS":
-      return {
-        ...state,
-        allWins: [...state.allWins, action.payload],
       };
     case "LOG_WIN":
       return {
         ...state,
         wins: [...state.wins, action.payload],
       };
-
     case "REMOVE_WIN":
       return {
         ...state,
         wins: state.wins.filter((win) => win.win_type !== action.payload),
       };
+    case "ADD_TO_ALL_WINS":
+      return {
+        ...state,
+        allWins: state.allWins.map((win) =>
+          win.date_logged === action.payload.date_logged ? action.payload : win
+        ),
+      };
+
     case "SET_SERVER_MESSAGE":
       return {
         ...state,
         serverMessage: action.payload.serverMessage ?? "",
         messageType: action.payload.messageType ?? "",
       };
+
+    case "LOAD_ALL_DATES":
+      return {
+        ...state,
+        activeDates: action.payload,
+      };
+
+    case "ADD_TO_ACTIVE_DATES":
+      return {
+        ...state,
+        activeDates: [...state.activeDates, action.payload],
+      };
+
+    case "REMOVE_TO_ACTIVE_DATES":
+      return {
+        ...state,
+        activeDates: state.activeDates.filter(
+          (date) => date !== action.payload
+        ),
+      };
+
     default:
       return state;
   }
@@ -78,55 +89,40 @@ const DailyWinContext = createContext<DailyWinContext | null>(null);
 function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
   const { getDMY } = useDate();
-  const { addDailyWin, getDailyWins, removeDailyWin } = useDB();
+  const { addDailyWin, getDailyWins } = useDB();
 
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
+    const dateNow = getDMY();
     // compile all wins
 
     const compiledDailyWin: DailyWin = {
       wins: appData.wins,
       wins_completed: appData.wins.length,
-      date_logged: "9/8/2025",
+      date_logged: dateNow,
     };
 
+    console.log(compiledDailyWin.wins_completed);
     // if wins has value
-    if (appData.wins.length > 0) {
-      try {
-        const resp = await addDailyWin(compiledDailyWin);
-        console.log(resp, "resp");
-        dispatch({ type: "LOG_DAILY_WIN", payload: compiledDailyWin });
-        dispatch({ type: "ADD_TO_ALL_WINS", payload: compiledDailyWin });
-        dispatch({
-          type: "SET_SERVER_MESSAGE",
-          payload: {
-            serverMessage: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
-            messageType: "success",
-          },
-        });
-      } catch (handleLogDailyWinError) {
-        console.log(handleLogDailyWinError);
-        dispatch({
-          type: "SET_SERVER_MESSAGE",
-          payload: {
-            serverMessage:
-              "Something went wrong on our side. Please try again later.",
-            messageType: "error",
-          },
-        });
-      }
-    } else {
-      removeDailyWin(getDMY());
+    if (compiledDailyWin.wins_completed > 0) {
+      const resp = await addDailyWin(compiledDailyWin);
+      console.log(resp, "resp");
+      dispatch({ type: "ADD_TO_ALL_WINS", payload: compiledDailyWin });
       dispatch({
-        type: "REMOVE_DAILY_WIN",
-        payload: getDMY(),
+        type: "ADD_TO_ACTIVE_DATES",
+        payload: compiledDailyWin.date_logged,
       });
       dispatch({
         type: "SET_SERVER_MESSAGE",
         payload: {
-          serverMessage: `No wins logged`,
-          messageType: "warning",
+          serverMessage: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
+          messageType: "success",
         },
+      });
+    } else {
+      dispatch({
+        type: "REMOVE_TO_ACTIVE_DATES",
+        payload: compiledDailyWin.date_logged,
       });
     }
   }
@@ -146,23 +142,25 @@ function App() {
     };
   }, [appData.serverMessage]);
 
+  // initial load
   useEffect(() => {
+    // ON MOUNT LOAD ALL SAVED DATA FROM DB
+    async function getWinsFromDB() {
+      try {
+        const ALLWINS_DATA_FROM_DB = await getDailyWins();
+        console.log(ALLWINS_DATA_FROM_DB, "LOADED DATA FROM DB");
+        const date = ALLWINS_DATA_FROM_DB.map((item: any) => {
+          return item["id"];
+        });
+        dispatch({ type: "LOAD_ALL_DATES", payload: date });
+        dispatch({ type: "LOAD_ALL_WINS", payload: ALLWINS_DATA_FROM_DB });
+      } catch (fetchErrorFromDB) {
+        console.log(fetchErrorFromDB);
+      }
+    }
+
     getWinsFromDB();
   }, []);
-
-  useEffect(() => {
-    console.log(appData.wins, "APP.TSX:{value:appData.Wins} ");
-  }, [appData]);
-
-  async function getWinsFromDB() {
-    try {
-      const res = await getDailyWins();
-      console.log(res, "LOAD DATA FROM DB: APP.TSX");
-      dispatch({ type: "LOAD_ALL_WINS", payload: res });
-    } catch (fetchErrorFromDB) {
-      console.log(fetchErrorFromDB);
-    }
-  }
 
   return (
     <>
@@ -194,3 +192,51 @@ export function useDailyWinContext() {
   }
   return context;
 }
+
+// compile all wins
+
+// const compiledDailyWin: DailyWin = {
+//   wins: appData.wins,
+//   wins_completed: appData.wins.length,
+//   date_logged: "9/8/2025",
+// };
+
+// // if wins has value
+// if (appData.wins.length > 0) {
+//   try {
+//     const resp = await addDailyWin(compiledDailyWin);
+//     console.log(resp, "resp");
+//     dispatch({ type: "LOG_DAILY_WIN", payload: compiledDailyWin });
+//     dispatch({ type: "ADD_TO_ALL_WINS", payload: compiledDailyWin });
+//     dispatch({
+//       type: "SET_SERVER_MESSAGE",
+//       payload: {
+//         serverMessage: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
+//         messageType: "success",
+//       },
+//     });
+//   } catch (handleLogDailyWinError) {
+//     console.log(handleLogDailyWinError);
+//     dispatch({
+//       type: "SET_SERVER_MESSAGE",
+//       payload: {
+//         serverMessage:
+//           "Something went wrong on our side. Please try again later.",
+//         messageType: "error",
+//       },
+//     });
+//   }
+// } else {
+//   removeDailyWin(getDMY());
+//   dispatch({
+//     type: "REMOVE_FROM_ALL_WINS",
+//     payload: getDMY(),
+//   });
+//   dispatch({
+//     type: "SET_SERVER_MESSAGE",
+//     payload: {
+//       serverMessage: `No wins logged`,
+//       messageType: "warning",
+//     },
+//   });
+// }

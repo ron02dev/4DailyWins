@@ -1,6 +1,6 @@
 import "../css/aside.css";
 import "../css/calendar.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import { useDailyWinContext } from "../App";
 
@@ -24,39 +24,41 @@ export default function Aside() {
   );
 }
 
+type TileClassNameProps = {
+  date: Date;
+  view: string;
+};
+
 function CalendarContainer() {
   const [value, onChange] = useState<Value>(new Date());
-  const [wonDates, setWonDates] = useState<string[] | null>();
   const { appData } = useDailyWinContext();
 
-  useEffect(() => {
-    const wonDays: any[] = appData.allWins;
-    const days = wonDays.map((data) => data.id);
-    setWonDates(days);
-  }, [appData]);
+  function tileClassName({
+    date,
+    view,
+  }: TileClassNameProps): string | undefined {
+    if (
+      view === "month" &&
+      appData.activeDates.includes(date.toLocaleDateString())
+    ) {
+      return "highlight"
+    }
+    return undefined;
+  }
 
   return (
     <div className="calendar-container">
       <Calendar
         value={value}
         onChange={onChange}
-        tileClassName={({ date, view }) => {
-          if (view === "month" && wonDates) {
-            // Format the date to match your wonDates format
-            const formatted = date.toLocaleDateString();
-
-            if (wonDates.includes(formatted)) {
-              return "highlight";
-            }
-          }
-        }}
+        tileClassName={tileClassName}
       />
       <style>
         {`
-          .highlight {
-            background-color: #78baf7;  !important;   
-          }
-        `}
+.highlight {
+  background: #87ff368f; !important;
+}
+  `}
       </style>
     </div>
   );

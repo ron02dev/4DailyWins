@@ -19,6 +19,8 @@ declare global {
     date_logged: string;
   }
 
+
+
   // USEREDUCERS
   interface InitialState {
     dailyWin: DailyWin;
@@ -27,6 +29,7 @@ declare global {
     isFetching: boolean;
     serverMessage: string;
     messageType: string;
+    activeDates: string[];
   }
 
   type ACTIONTYPE =
@@ -37,9 +40,10 @@ declare global {
     | { type: "LOAD_ALL_WINS"; payload: DailyWin[] }
     | { type: "LOG_WIN"; payload: Win }
     | { type: "REMOVE_WIN"; payload: win_type }
-    | { type: "LOG_DAILY_WIN"; payload: DailyWin }
-    | { type: "ADD_TO_ALL_WINS"; payload: DailyWin }
-    | { type: "REMOVE_FROM_ALL_WINS"; payload: string };
+    | { type: "LOAD_ALL_DATES"; payload: string[] }
+    | { type: "ADD_TO_ACTIVE_DATES"; payload: string }
+    | { type: "REMOVE_TO_ACTIVE_DATES"; payload: string }
+    | { type: "ADD_TO_ALL_WINS"; payload: DailyWin };
 
   // CONTEXT REFERENCE
   interface DailyWinContext {
