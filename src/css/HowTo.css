@@ -1,0 +1,58 @@
+.howto-content{
+       justify-self: center;
+       align-self: center;
+   
+}
+
+.howto-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #79e2f52f;
+  justify-self: center;
+  align-self: center;border: 2px solid white;
+  border-radius: 5px;
+  width: 90%;
+
+}
+
+.howto-container h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: #4b352a;
+  letter-spacing: 1px;
+}
+
+.howto-container ol {
+  margin-left: 1.2rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1.2rem;
+}
+
+.howto-container li {
+  margin-bottom: 1rem;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.howto-container ul {
+  margin-top: 0.3rem;
+  margin-bottom: 0.8rem;
+  padding-left: 1.2rem;
+}
+
+.howto-container strong {
+  color: #f18063;
+}
+
+.howto-container span {
+  font-weight: 600;
+}
+
+.howto-container p {
+  text-align: center;
+  margin-top: 2rem;
+  color: #555;
+  font-size: 1.1rem;
+}

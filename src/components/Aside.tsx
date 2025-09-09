@@ -8,18 +8,27 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export default function Aside() {
+interface Props {
+  handleHowToUse(): void;
+}
+
+export default function Aside({ handleHowToUse }: Props) {
   const { appData } = useDailyWinContext();
   return (
     <div className="content-aside">
-      <section>
+      <section className="calendar-section">
         <h1 className="aside-title">4 Daily Wins</h1>
 
         <CalendarContainer />
       </section>
-      <p className={`server-message ${appData.messageType}`}>
-        {appData.serverMessage.toUpperCase()}
-      </p>
+      <section className="link-and-msg">
+        <p className={`server-message ${appData.messageType}`}>
+          {appData.serverMessage.toUpperCase()}
+        </p>
+      </section>
+      <button className="link-btn" onClick={handleHowToUse}>
+        How To Use?
+      </button>
     </div>
   );
 }

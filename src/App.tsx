@@ -1,10 +1,17 @@
 import Aside from "./components/Aside";
 
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import Topics from "./components/content/Topics";
 import "./css/App.css";
 import useDB from "./hooks/useDB";
 import useDate from "./hooks/useDate";
+import HowToUse from "./components/HowToUse";
 
 // INITIALIZED DATA FOR REDUCER
 const initialAppData: InitialState = {
@@ -90,10 +97,10 @@ function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
   const { getDMY } = useDate();
   const { addDailyWin, getDailyWins } = useDB();
-
+  const [isHowActice, setIsHowActive] = useState<boolean | null>(false);
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
-    const today =getDMY()
+    const today = getDMY();
     const compiledDailyWin: DailyWin = {
       wins: appData.wins,
       wins_completed: appData.wins.length,
@@ -121,6 +128,14 @@ function App() {
       dispatch({
         type: "REMOVE_TO_ACTIVE_DATES",
         payload: compiledDailyWin.date_logged,
+      });
+
+      dispatch({
+        type: "SET_SERVER_MESSAGE",
+        payload: {
+          serverMessage: `Logged Wins removed`,
+          messageType: "warning",
+        },
       });
     }
   }
@@ -160,21 +175,29 @@ function App() {
     getWinsFromDB();
   }, []);
 
+  function handleHowToUse() {
+    setIsHowActive(!isHowActice);
+  }
+
   return (
     <>
       <DailyWinContext.Provider value={{ appData, dispatch }}>
         <main className="app-container">
-          <Aside />
+          <Aside handleHowToUse={handleHowToUse} />
 
-          <div className="content">
-            <header className="content-header">
-              <button onClick={handleLogDailyWin} className="log-btn">
-                Log Wins
-              </button>
-            </header>
+          {isHowActice ? (
+            <HowToUse />
+          ) : (
+            <div className="content">
+              <header className="content-header">
+                <button onClick={handleLogDailyWin} className="log-btn">
+                  Log Wins
+                </button>
+              </header>
 
-            <Topics />
-          </div>
+              <Topics />
+            </div>
+          )}
         </main>
       </DailyWinContext.Provider>
     </>

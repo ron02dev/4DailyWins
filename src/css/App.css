@@ -1,6 +1,15 @@
+/* MAIN BOX THAT HOLD ASIDE AND CONTENT */
 .app-container {
   min-height: 100vh;
   display: flex;
+}
+
+.app-container div:nth-child(2) {
+flex: 2;
+}
+
+.app-container div:nth-child(1) {
+flex: 0.5;
 }
 
 /* 
@@ -10,10 +19,10 @@
 #F0F2BD - gray
 */
 
+/* MAIN CONTENT */
 .content {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 .content-header {
@@ -62,4 +71,11 @@
   background-color: rgb(157, 216, 255);
 
   font-weight: 700;
+}
+
+.link-btn {
+  color: blue;
+  font-weight: 600;
+  text-decoration: underline;
+  font-size: 1.2rem;
 }
