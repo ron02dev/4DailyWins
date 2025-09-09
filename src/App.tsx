@@ -93,13 +93,11 @@ function App() {
 
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
-    const dateNow = getDMY();
-    // compile all wins
-
+    const today =getDMY()
     const compiledDailyWin: DailyWin = {
       wins: appData.wins,
       wins_completed: appData.wins.length,
-      date_logged: dateNow,
+      date_logged: today,
     };
 
     console.log(compiledDailyWin.wins_completed);

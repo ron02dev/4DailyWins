@@ -41,7 +41,7 @@ function CalendarContainer() {
       view === "month" &&
       appData.activeDates.includes(date.toLocaleDateString())
     ) {
-      return "highlight"
+      return "highlight";
     }
     return undefined;
   }
