@@ -1,26 +1,33 @@
-import { useState } from "react";
+
 import { useDailyWinContext } from "../App";
 
 interface Props extends Win {
   win_type: win_type;
   task_done: string;
   setTask: React.Dispatch<React.SetStateAction<string | null>>;
+  isChecked: boolean;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Checkbox({ win_type, task_done, setTask }: Props) {
+export default function Checkbox({
+  win_type,
+  task_done,
+  setTask,
+  isChecked,
+  setIsChecked,
+}: Props) {
   const { dispatch } = useDailyWinContext();
-  const [isChecked, setIsChecked] = useState<boolean | false>(false);
 
   // SUBMIT THE WIN ON REDUCER
   function submitWin() {
     // SANITIZE VALUE
     const taskValue = task_done.trim();
-    const sanitizedText = taskValue.replace(/\r?\n/g, "");
+
     if (taskValue.length > 3) {
       // COMPILED WIN ON CERTAIN CATEGORY
       const win: Win = {
         win_type: win_type,
-        task_done: sanitizedText,
+        task_done: taskValue,
       };
       dispatch({ type: "LOG_WIN", payload: win });
       dispatch({

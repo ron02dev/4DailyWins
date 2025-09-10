@@ -19,7 +19,10 @@ declare global {
     date_logged: string;
   }
 
-
+interface DailyWinRecord {
+  id: string; // e.g., '9/10/2025'
+  dailyWin: DailyWin; // assuming you already have a DailyWin interface
+}
 
   // USEREDUCERS
   interface InitialState {
@@ -38,7 +41,8 @@ declare global {
         payload: { serverMessage: string; messageType?: string };
       }
     | { type: "LOAD_ALL_WINS"; payload: DailyWin[] }
-    | { type: "LOG_WIN"; payload: Win }
+    | { type: "LOG_WIN"; payload: Win}
+    | { type: "LOG_ALL_WINS"; payload: Win[]}
     | { type: "REMOVE_WIN"; payload: win_type }
     | { type: "LOAD_ALL_DATES"; payload: string[] }
     | { type: "ADD_TO_ACTIVE_DATES"; payload: string }

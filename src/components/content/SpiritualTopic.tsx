@@ -1,9 +1,10 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useDailyWinContext } from "../../App";
 import TopicHandler from "../TopicHandler";
 
 export default function SpiritualTopic() {
-  const [task, setTask] = useState<string | null>(`Log your Spiritual wins here
+  const win_type = "spiritual";
+  const defaultText = `Log your Spiritual wins here
 Activities that connect you to your purpose or provide inner peace, like praying, meditating, or journaling.
 
     EXAMPLES:
@@ -11,15 +12,35 @@ Activities that connect you to your purpose or provide inner peace, like praying
   - Write down 3 things you’re grateful for
   - Spend time in nature mindfully
   - Do one act of kindness 
-  `);
+  `;
+  const [task, setTask] = useState<string | null>(defaultText);
+  const { appData } = useDailyWinContext();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
+  useEffect(() => {
+    // if wins array has value
+    if (appData.wins.length > 0) {
+      const currentWin = appData.wins.find((win) => {
+        return win.win_type == win_type;
+      });
+      // if array wins has mental wins
+      if (currentWin) {
+        const task = currentWin.task_done || defaultText;
+        
+        setIsChecked(true);
+        setTask(task);
+      }
+    }
+  }, [appData.wins]);
   return (
     <div className="topic-content">
       <p className="topic-title">Spiritual (Purpose / Inner Self)</p>
       <TopicHandler
         setTask={setTask}
-        win_type="spiritual"
+        win_type={win_type}
         task_done={task ?? ""}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
       />
     </div>
   );

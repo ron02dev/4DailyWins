@@ -44,6 +44,11 @@ function reducer(
         ...state,
         wins: [...state.wins, action.payload],
       };
+    case "LOG_ALL_WINS":
+      return {
+        ...state,
+        wins: action.payload,
+      };
     case "REMOVE_WIN":
       return {
         ...state,
@@ -165,8 +170,22 @@ function App() {
         const date = ALLWINS_DATA_FROM_DB.map((item: any) => {
           return item["id"];
         });
+
+        // load the current date
+        const lastSavedDailyWin = ALLWINS_DATA_FROM_DB.find((obj: any) => {
+          return obj["id"] == getDMY();
+        });
+
+        if (lastSavedDailyWin) {
+          // LOAD THE WINS ON THAT CURRENT DATE
+          const lastSavedWins = lastSavedDailyWin.dailyWin.wins;
+          console.log(lastSavedDailyWin, lastSavedWins);
+          dispatch({ type: "LOG_ALL_WINS", payload: lastSavedWins });
+        }
+
         dispatch({ type: "LOAD_ALL_DATES", payload: date });
         dispatch({ type: "LOAD_ALL_WINS", payload: ALLWINS_DATA_FROM_DB });
+        // WINS ARRAY
       } catch (fetchErrorFromDB) {
         console.log(fetchErrorFromDB);
       }
