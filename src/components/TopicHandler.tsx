@@ -1,4 +1,3 @@
-
 import { useDailyWinContext } from "../App";
 
 interface Props extends Win {
@@ -33,7 +32,7 @@ export default function Checkbox({
       dispatch({
         type: "SET_SERVER_MESSAGE",
         payload: {
-          serverMessage: `${win_type} win logged`,
+          serverMessage: `${win_type} win logged, Don't Forget to log your wins :)`,
           messageType: "success",
         },
       });
