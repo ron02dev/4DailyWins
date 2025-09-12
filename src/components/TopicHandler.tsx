@@ -32,7 +32,7 @@ export default function Checkbox({
       dispatch({
         type: "SET_SERVER_MESSAGE",
         payload: {
-          serverMessage: `${win_type} win logged, Don't Forget to log your wins :)`,
+          serverMessage: `${win_type} win added! : Remember to save your progress regularly to keep your wins safe!`,
           messageType: "success",
         },
       });
@@ -67,7 +67,7 @@ export default function Checkbox({
     dispatch({
       type: "SET_SERVER_MESSAGE",
       payload: {
-        serverMessage: `${win_type} win un-logged`,
+        serverMessage: `${win_type} win removed! : Don't forget to save your progress`,
         messageType: "warning",
       },
     });

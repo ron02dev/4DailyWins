@@ -153,7 +153,7 @@ function App() {
           type: "SET_SERVER_MESSAGE",
           payload: { serverMessage: "", messageType: "" },
         }),
-      1000
+      4000
     );
     return () => {
       clearTimeout(messageDelay);
@@ -210,7 +210,7 @@ function App() {
             <div className="content">
               <header className="content-header">
                 <button onClick={handleLogDailyWin} className="log-btn">
-                  Log Wins
+                  Save Progress
                 </button>
               </header>
 
@@ -232,51 +232,3 @@ export function useDailyWinContext() {
   }
   return context;
 }
-
-// compile all wins
-
-// const compiledDailyWin: DailyWin = {
-//   wins: appData.wins,
-//   wins_completed: appData.wins.length,
-//   date_logged: "9/8/2025",
-// };
-
-// // if wins has value
-// if (appData.wins.length > 0) {
-//   try {
-//     const resp = await addDailyWin(compiledDailyWin);
-//     console.log(resp, "resp");
-//     dispatch({ type: "LOG_DAILY_WIN", payload: compiledDailyWin });
-//     dispatch({ type: "ADD_TO_ALL_WINS", payload: compiledDailyWin });
-//     dispatch({
-//       type: "SET_SERVER_MESSAGE",
-//       payload: {
-//         serverMessage: `Wins Logged, Total : ${compiledDailyWin.wins_completed}`,
-//         messageType: "success",
-//       },
-//     });
-//   } catch (handleLogDailyWinError) {
-//     console.log(handleLogDailyWinError);
-//     dispatch({
-//       type: "SET_SERVER_MESSAGE",
-//       payload: {
-//         serverMessage:
-//           "Something went wrong on our side. Please try again later.",
-//         messageType: "error",
-//       },
-//     });
-//   }
-// } else {
-//   removeDailyWin(getDMY());
-//   dispatch({
-//     type: "REMOVE_FROM_ALL_WINS",
-//     payload: getDMY(),
-//   });
-//   dispatch({
-//     type: "SET_SERVER_MESSAGE",
-//     payload: {
-//       serverMessage: `No wins logged`,
-//       messageType: "warning",
-//     },
-//   });
-// }
