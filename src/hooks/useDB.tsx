@@ -62,6 +62,20 @@ export default function useDB() {
       request.onerror = () => reject(request.error);
     });
   }
+
+  async function findDailyWin(id: string) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const store = tx.objectStore(STORE_NAME);
+
+      const request = store.get(id);
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   async function getDailyWins(): Promise<any[]> {
     const db = await openDB();
     return new Promise((resolve, reject) => {
@@ -80,5 +94,5 @@ export default function useDB() {
     });
   }
 
-  return { openDB, addDailyWin, getDailyWins, removeDailyWin };
+  return { openDB, addDailyWin, getDailyWins, findDailyWin, removeDailyWin };
 }

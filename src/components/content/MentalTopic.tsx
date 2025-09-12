@@ -36,13 +36,14 @@ Engaging in activities that stimulate your mind, such as reading, learning somet
   return (
     <div className="topic-content">
       <p className="topic-title">Mental (Mind / Growth)</p>
-      <TopicHandler
-        setTask={setTask}
-        win_type={win_type}
-        task_done={task ?? ""}
-        isChecked={isChecked}
-        setIsChecked={setIsChecked}
-      />
+
+       <TopicHandler
+          setTask={setTask}
+          win_type={win_type}
+          task_done={task ?? ""}
+          isChecked={isChecked}
+          setIsChecked={setIsChecked}
+        />
     </div>
   );
 }

@@ -33,6 +33,7 @@ guitar jamming can count here, but you can deepen this by sharing music, chattin
       }
     }
   }, [appData.wins]);
+  
   return (
     <div className="topic-content">
       <p className="topic-title">

@@ -3,6 +3,8 @@ import "../css/calendar.css";
 import { useState } from "react";
 import Calendar from "react-calendar";
 import { useDailyWinContext } from "../App";
+import useDB from "../hooks/useDB";
+import useDate from "../hooks/useDate";
 
 type ValuePiece = Date | null;
 
@@ -40,8 +42,9 @@ type TileClassNameProps = {
 
 function CalendarContainer() {
   const [value, onChange] = useState<Value>(new Date());
-  const { appData } = useDailyWinContext();
-
+  const { appData, dispatch } = useDailyWinContext();
+  const { findDailyWin } = useDB();
+  const { getDMY } = useDate();
   function tileClassName({
     date,
     view,
@@ -55,12 +58,62 @@ function CalendarContainer() {
     return undefined;
   }
 
+  //  dispatch({ type: "LOAD_WIN_HISTORY", payload: lastSavedWins });
+  //       dispatch({
+  //         type: "SET_SERVER_MESSAGE",
+  //         payload: {
+  //           serverMessage: `Viewing ${id} Wins`,
+  //           messageType: "success",
+  //         },
+  //       });
+  async function handleDayClick(date: any) {
+    const id = date.toLocaleDateString();
+    const currentDay = getDMY();
+    try {
+      const fetchWinHistory = (await findDailyWin(id)) as DailyWinRecord | null;
+
+      if (fetchWinHistory && id != currentDay) {
+        console.log("WIN HISTORY HAS VALUE", fetchWinHistory);
+        const winsHistory = fetchWinHistory.dailyWin.wins;
+        dispatch({ type: "LOAD_WIN_HISTORY", payload: winsHistory });
+        dispatch({
+          type: "SET_SERVER_MESSAGE",
+          payload: {
+            serverMessage: `viewing logged wins on ${id}`,
+            messageType: "success",
+          },
+        });
+      } else if (id == currentDay) {
+        dispatch({ type: "CLEAR_WIN_HISTORY" });
+        dispatch({
+          type: "SET_SERVER_MESSAGE",
+          payload: {
+            serverMessage: `Viewing current day`,
+            messageType: "success",
+          },
+        });
+      } else {
+        dispatch({ type: "CLEAR_WIN_HISTORY" });
+        dispatch({
+          type: "SET_SERVER_MESSAGE",
+          payload: {
+            serverMessage: `No logged wins on ${id}`,
+            messageType: "success",
+          },
+        });
+      }
+    } catch (fetchErrorFromDB) {
+      console.log(fetchErrorFromDB);
+    }
+  }
+
   return (
     <div className="calendar-container">
       <Calendar
         value={value}
         onChange={onChange}
         tileClassName={tileClassName}
+        onClickDay={handleDayClick}
       />
       <style>
         {`

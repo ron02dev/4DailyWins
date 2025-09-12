@@ -26,6 +26,7 @@ const initialAppData: InitialState = {
   serverMessage: "",
   messageType: "",
   activeDates: [],
+  winHistory: [],
 };
 
 // REDUCER FUNCTIONS
@@ -80,6 +81,16 @@ function reducer(
         ...state,
         activeDates: [...state.activeDates, action.payload],
       };
+    case "LOAD_WIN_HISTORY":
+      return {
+        ...state,
+        winHistory: action.payload,
+      };
+      case "CLEAR_WIN_HISTORY":
+      return {
+        ...state,
+        winHistory: [],
+      };
 
     case "REMOVE_TO_ACTIVE_DATES":
       return {
@@ -102,7 +113,7 @@ function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
   const { getDMY } = useDate();
   const { addDailyWin, getDailyWins } = useDB();
-  const [isHowActice, setIsHowActive] = useState<boolean | null>(false);
+  const [isHowActive, setIsHowActive] = useState<boolean | null>(false);
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
     const today = getDMY();
@@ -179,7 +190,7 @@ function App() {
         if (lastSavedDailyWin) {
           // LOAD THE WINS ON THAT CURRENT DATE
           const lastSavedWins = lastSavedDailyWin.dailyWin.wins;
-          console.log(lastSavedDailyWin, lastSavedWins);
+          console.log(lastSavedDailyWin, lastSavedWins, "LAST SAVED WINS");
           dispatch({ type: "LOG_ALL_WINS", payload: lastSavedWins });
         }
 
@@ -195,7 +206,7 @@ function App() {
   }, []);
 
   function handleHowToUse() {
-    setIsHowActive(!isHowActice);
+    setIsHowActive(!isHowActive);
   }
 
   return (
@@ -204,7 +215,7 @@ function App() {
         <main className="app-container">
           <Aside handleHowToUse={handleHowToUse} />
 
-          {isHowActice ? (
+          {isHowActive ? (
             <HowToUse />
           ) : (
             <div className="content">
