@@ -41,7 +41,7 @@ export default function Checkbox({
       dispatch({
         type: "SET_SERVER_MESSAGE",
         payload: {
-          serverMessage: `Invalid task logged, ${win_type} win not logged`,
+          serverMessage: `Invalid task!, ${win_type} win not logged`,
           messageType: "error",
         },
       });
