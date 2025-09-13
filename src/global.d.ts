@@ -20,7 +20,7 @@ declare global {
   }
 
   interface DailyWinRecord {
-    dailyWin: DailyWin; 
+    dailyWin: DailyWin;
     id: string; // e.g., '9/10/2025'
     // assuming you already have a DailyWin interface
   }
@@ -34,7 +34,12 @@ declare global {
     serverMessage: string;
     messageType: string;
     activeDates: string[];
-    winHistory: Win[];
+    winHistory: winHistoryType;
+  }
+
+  interface winHistoryType {
+    selectedWinHistory: Win[];
+    selectedDateHistory: string;
   }
 
   type ACTIONTYPE =
@@ -49,8 +54,8 @@ declare global {
     | { type: "LOAD_ALL_DATES"; payload: string[] }
     | { type: "ADD_TO_ACTIVE_DATES"; payload: string }
     | { type: "REMOVE_TO_ACTIVE_DATES"; payload: string }
-    | { type: "LOAD_WIN_HISTORY"; payload: Win[] }
-    | { type: "CLEAR_WIN_HISTORY" }
+    | { type: "LOAD_WIN_HISTORY"; payload: winHistoryType }
+    | { type: "CLEAR_WIN_HISTORY";}
     | { type: "ADD_TO_ALL_WINS"; payload: DailyWin };
 
   // CONTEXT REFERENCE

@@ -21,7 +21,6 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-
 /* MENTAL DIV */
 .topic-container div:nth-child(1) {
   background-color: #ff7474;
@@ -30,7 +29,7 @@
 /* PHYSICAL DIV */
 
 .topic-container div:nth-child(2) {
- background-color: #f18063e5;
+  background-color: #f18063e5;
 }
 
 /* SPIRITUAL DIV */
@@ -55,7 +54,7 @@
 .topic-container textarea {
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0);
- border-top: 1px solid white;
+  border-top: 1px solid white;
   border-bottom: 1px solid white;
 }
 .topic-container .controls-span {
@@ -103,4 +102,6 @@
   border-radius: 5px;
 }
 
-
+.topic-content .history-textarea {
+  margin-top: 20px;
+}

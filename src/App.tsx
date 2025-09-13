@@ -26,7 +26,10 @@ const initialAppData: InitialState = {
   serverMessage: "",
   messageType: "",
   activeDates: [],
-  winHistory: [],
+  winHistory: {
+    selectedWinHistory: [],
+    selectedDateHistory: "",
+  },
 };
 
 // REDUCER FUNCTIONS
@@ -86,10 +89,10 @@ function reducer(
         ...state,
         winHistory: action.payload,
       };
-      case "CLEAR_WIN_HISTORY":
+    case "CLEAR_WIN_HISTORY":
       return {
         ...state,
-        winHistory: [],
+        winHistory: { selectedWinHistory: [], selectedDateHistory: "" },
       };
 
     case "REMOVE_TO_ACTIVE_DATES":
@@ -114,6 +117,7 @@ function App() {
   const { getDMY } = useDate();
   const { addDailyWin, getDailyWins } = useDB();
   const [isHowActive, setIsHowActive] = useState<boolean | null>(false);
+  const [isHistoryActive, setisHistoryActive] = useState<boolean | null>(false);
   // ---------------MAIN FUNCTION
   async function handleLogDailyWin() {
     const today = getDMY();
@@ -171,6 +175,15 @@ function App() {
     };
   }, [appData.serverMessage]);
 
+  // WHEN VIEWING HISTORY ACTIVE
+  useEffect(() => {
+    if (appData.winHistory.selectedWinHistory.length > 0) {
+      setisHistoryActive(true);
+    } else {
+      setisHistoryActive(false);
+    }
+  }, [appData.winHistory]);
+
   // initial load
   useEffect(() => {
     // ON MOUNT LOAD ALL SAVED DATA FROM DB
@@ -220,9 +233,13 @@ function App() {
           ) : (
             <div className="content">
               <header className="content-header">
-                <button onClick={handleLogDailyWin} className="log-btn">
-                  Save Progress
-                </button>
+                {isHistoryActive ? (
+                  <p>Viewing {appData.winHistory.selectedDateHistory} Logs</p>
+                ) : (
+                  <button onClick={handleLogDailyWin} className="log-btn">
+                    Save Progress
+                  </button>
+                )}
               </header>
 
               <Topics />

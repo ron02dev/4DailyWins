@@ -74,13 +74,17 @@ function CalendarContainer() {
 
       if (fetchWinHistory && id != currentDay) {
         console.log("WIN HISTORY HAS VALUE", fetchWinHistory);
-        const winsHistory = fetchWinHistory.dailyWin.wins;
-        dispatch({ type: "LOAD_WIN_HISTORY", payload: winsHistory });
+        const winsHistoryArray = fetchWinHistory.dailyWin.wins;
+        const winHistory: winHistoryType = {
+          selectedWinHistory: winsHistoryArray,
+          selectedDateHistory: id,
+        };
+        dispatch({ type: "LOAD_WIN_HISTORY", payload: winHistory });
         dispatch({
           type: "SET_SERVER_MESSAGE",
           payload: {
             serverMessage: `viewing logged wins on ${id}`,
-            messageType: "success",
+            messageType: "warning",
           },
         });
       } else if (id == currentDay) {
@@ -98,7 +102,7 @@ function CalendarContainer() {
           type: "SET_SERVER_MESSAGE",
           payload: {
             serverMessage: `No logged wins on ${id}`,
-            messageType: "success",
+            messageType: "error",
           },
         });
       }

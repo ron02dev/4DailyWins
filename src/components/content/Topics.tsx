@@ -8,52 +8,124 @@ import { useDailyWinContext } from "../../App";
 
 export default function Topics() {
   const { appData } = useDailyWinContext();
-  const [mentalWinHistory, setMentalWinHistory] = useState<string | null>("");
+  const [isHistoryView, setIsHistoryView] = useState<boolean | null>(false);
 
   useEffect(() => {
-    console.log("WIN HISTORY CHANGED", appData.winHistory);
-
-    if (appData.winHistory.length > 0) {
-      const mentalWin = appData.winHistory.find((win) => {
-        return win.win_type == "mental";
-      });
-      // if array wins has mental wins
-      if (mentalWin) {
-        setMentalWinHistory(mentalWin.task_done)
-      }
-    }else{
-      setMentalWinHistory("")
+    if (appData.winHistory.selectedWinHistory.length > 0) {
+      setIsHistoryView(true);
+    } else {
+      setIsHistoryView(false);
     }
   }, [appData.winHistory]);
   return (
     <>
       <div className="topic-container">
-        {appData.winHistory.length > 0 ? (
-          <WinHistory
-            win={mentalWinHistory ?? ""}
-            winTitle={"Mental Win"}
+        {isHistoryView ? (
+          <WinHistoryView
+            winHistory={appData.winHistory.selectedWinHistory}
+            dateHistory={appData.winHistory.selectedDateHistory}
           />
         ) : (
-          <MentalTopic />
+          <>
+            <MentalTopic />
+            <PhysicalTopic />
+            <SpiritualTopic />
+            <EmotionalTopic />
+          </>
         )}
-        <PhysicalTopic />
-        <SpiritualTopic />
-        <EmotionalTopic />
       </div>
     </>
   );
 }
 
 interface winHistoryProps {
-  win: string;
-  winTitle: string;
+  winHistory: Win[];
+  dateHistory: string;
 }
 
-function WinHistory({ win, winTitle }: winHistoryProps) {
+function WinHistoryView({ winHistory }: winHistoryProps) {
+  const [loggedMentalWin, setLoggedMentalWin] = useState<string | null>("");
+  const [loggedPhysicalWin, setLoggedPhysicalWin] = useState<string | null>("");
+  const [loggedSpiritualWin, setLoggedSpiritualWin] = useState<string | null>(
+    ""
+  );
+  const [loggedEmotionalWin, setLoggedEmotionalWin] = useState<string | null>(
+    ""
+  );
+
+  useEffect(() => {
+    const mentalWin = winHistory.find((win) => {
+      return win.win_type == "mental";
+    });
+
+    const physicalWin = winHistory.find((win) => {
+      return win.win_type == "physical";
+    });
+    const spiritualWin = winHistory.find((win) => {
+      return win.win_type == "spiritual";
+    });
+
+    const emotionalWin = winHistory.find((win) => {
+      return win.win_type == "emotional";
+    });
+    // if array wins has mental wins
+    mentalWin && setLoggedMentalWin(mentalWin.task_done);
+    physicalWin && setLoggedPhysicalWin(physicalWin.task_done);
+    spiritualWin && setLoggedSpiritualWin(spiritualWin.task_done);
+    emotionalWin && setLoggedEmotionalWin(emotionalWin.task_done);
+  }, [winHistory]);
   return (
-    <div className="topic-content">
-      <p className="topic-title">{winTitle}</p>
-      <p>{win}</p>
-    </div>
+    <>
+      <div className="topic-content">
+        <p className="topic-title">Mental (Mind / Growth)</p>
+        <textarea
+          maxLength={500}
+          className={"textarea history-textarea"}
+          disabled={true}
+          value={
+            loggedMentalWin || "You didn't logged any Mental win for this day"
+          }
+        />
+      </div>
+
+      <div className="topic-content">
+        <p className="topic-title">Physical (Body / Health)</p>
+        <textarea
+          maxLength={500}
+          className={"textarea history-textarea"}
+          disabled={true}
+          value={
+            loggedPhysicalWin ||
+            "You didn't logged any Physical win for this day"
+          }
+        />
+      </div>
+      <div className="topic-content">
+        <p className="topic-title">Spiritual (Purpose / Inner Self)</p>
+        <textarea
+          maxLength={500}
+          className={"textarea history-textarea"}
+          disabled={true}
+          value={
+            loggedSpiritualWin ||
+            "You didn't logged any Spiritual win for this day"
+          }
+        />
+      </div>
+      <div className="topic-content">
+        <p className="topic-title">
+          Emotional / Social (Relationships & Self-Care)
+        </p>
+        <textarea
+          maxLength={500}
+          className={"textarea history-textarea"}
+          disabled={true}
+          value={
+            loggedEmotionalWin ||
+            "You didn't logged any Emotional win for this day"
+          }
+        />
+      </div>
+    </>
   );
 }
