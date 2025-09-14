@@ -1,4 +1,5 @@
 import Aside from "./components/Aside";
+import 'animate.css';
 
 import {
   createContext,
@@ -114,7 +115,7 @@ const DailyWinContext = createContext<DailyWinContext | null>(null);
 // APP--APP--APP--APP--APP
 function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
-  const { getDMY } = useDate();
+  const { getDMY,toUIDate } = useDate();
   const { addDailyWin, getDailyWins } = useDB();
   const [isHowActive, setIsHowActive] = useState<boolean | null>(false);
   const [isHistoryActive, setisHistoryActive] = useState<boolean | null>(false);
@@ -160,20 +161,20 @@ function App() {
     }
   }
 
-  // DISSAPEARING MESSAGES
-  useEffect(() => {
-    const messageDelay = setTimeout(
-      () =>
-        dispatch({
-          type: "SET_SERVER_MESSAGE",
-          payload: { serverMessage: "", messageType: "" },
-        }),
-      4000
-    );
-    return () => {
-      clearTimeout(messageDelay);
-    };
-  }, [appData.serverMessage]);
+  // // DISSAPEARING MESSAGES
+  // useEffect(() => {
+  //   const messageDelay = setTimeout(
+  //     () =>
+  //       dispatch({
+  //         type: "SET_SERVER_MESSAGE",
+  //         payload: { serverMessage: "", messageType: "" },
+  //       }),
+  //     2500
+  //   );
+  //   return () => {
+  //     clearTimeout(messageDelay);
+  //   };
+  // }, [appData.serverMessage]);
 
   // WHEN VIEWING HISTORY ACTIVE
   useEffect(() => {
@@ -231,10 +232,10 @@ function App() {
           {isHowActive ? (
             <HowToUse />
           ) : (
-            <div className="content">
+            <div className="content-main">
               <header className="content-header">
                 {isHistoryActive ? (
-                  <p>Viewing {appData.winHistory.selectedDateHistory} Logs</p>
+                  <p className="log-message">Viewing  <span className="log-message-highlight">{toUIDate(appData.winHistory.selectedDateHistory)}</span> Logs</p>
                 ) : (
                   <button onClick={handleLogDailyWin} className="log-btn">
                     Save Progress

@@ -24,6 +24,7 @@
 }
 
 .content-aside .calendar-section {
+  min-width: 300px;
   gap: 55px;
   height: 60vh;
 }

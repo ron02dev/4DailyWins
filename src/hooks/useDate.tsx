@@ -7,5 +7,15 @@ export default function useDate() {
     return `${month + 1}/${day}/${year}`;
   }
 
-  return { getDMY };
+  function toUIDate(date: string) {
+    const [month, day, year] = date.split("/").map(Number);
+    const d = new Date(year, month - 1, day);
+    return d.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  return { getDMY, toUIDate };
 }
