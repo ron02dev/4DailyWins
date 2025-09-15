@@ -1,5 +1,5 @@
 import Aside from "./components/Aside";
-import 'animate.css';
+import "animate.css";
 
 import {
   createContext,
@@ -8,6 +8,7 @@ import {
   useReducer,
   useState,
 } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import Topics from "./components/content/Topics";
 import "./css/App.css";
 import useDB from "./hooks/useDB";
@@ -115,7 +116,7 @@ const DailyWinContext = createContext<DailyWinContext | null>(null);
 // APP--APP--APP--APP--APP
 function App() {
   const [appData, dispatch] = useReducer(reducer, initialAppData);
-  const { getDMY,toUIDate } = useDate();
+  const { getDMY, toUIDate } = useDate();
   const { addDailyWin, getDailyWins } = useDB();
   const [isHowActive, setIsHowActive] = useState<boolean | null>(false);
   const [isHistoryActive, setisHistoryActive] = useState<boolean | null>(false);
@@ -161,20 +162,24 @@ function App() {
     }
   }
 
-  // // DISSAPEARING MESSAGES
-  // useEffect(() => {
-  //   const messageDelay = setTimeout(
-  //     () =>
-  //       dispatch({
-  //         type: "SET_SERVER_MESSAGE",
-  //         payload: { serverMessage: "", messageType: "" },
-  //       }),
-  //     2500
-  //   );
-  //   return () => {
-  //     clearTimeout(messageDelay);
-  //   };
-  // }, [appData.serverMessage]);
+  /* 
+    DISSAPEARING MESSAGES
+   useEffect(() => {
+   const messageDelay = setTimeout(
+      () =>
+      dispatch({
+         type: "SET_SERVER_MESSAGE",
+         payload: { serverMessage: "", messageType: "" },
+       }),
+     2500
+   );
+  return () => {
+     clearTimeout(messageDelay);
+   };
+ }, [appData.serverMessage]);
+  
+  
+  */
 
   // WHEN VIEWING HISTORY ACTIVE
   useEffect(() => {
@@ -223,6 +228,21 @@ function App() {
     setIsHowActive(!isHowActive);
   }
 
+  
+  useEffect(() => {
+    if (appData.serverMessage.length > 2) {
+      if (appData.messageType == "success") {
+        toast.success(appData.serverMessage);
+      } else if (appData.messageType == "error") {
+        toast.error(appData.serverMessage);
+      } else if (appData.messageType == "warning") {
+        toast.warn(appData.serverMessage);
+      } else {
+        toast.info(appData.serverMessage);
+      }
+    }
+  }, [appData.serverMessage]);
+
   return (
     <>
       <DailyWinContext.Provider value={{ appData, dispatch }}>
@@ -234,8 +254,27 @@ function App() {
           ) : (
             <div className="content-main">
               <header className="content-header">
+                <ToastContainer
+                  position="top-right"
+                  autoClose={2000}
+                  limit={5}
+                  hideProgressBar={false}
+                  newestOnTop={true}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                />
                 {isHistoryActive ? (
-                  <p className="log-message">Viewing  <span className="log-message-highlight">{toUIDate(appData.winHistory.selectedDateHistory)}</span> Logs</p>
+                  <p className="log-message">
+                    Viewing{" "}
+                    <span className="log-message-highlight">
+                      {toUIDate(appData.winHistory.selectedDateHistory)}
+                    </span>{" "}
+                    Logs
+                  </p>
                 ) : (
                   <button onClick={handleLogDailyWin} className="log-btn">
                     Save Progress

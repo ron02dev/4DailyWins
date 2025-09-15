@@ -4,7 +4,7 @@ import TopicHandler from "../TopicHandler";
 import { useDailyWinContext } from "../../App";
 
 export default function EmotionalTopic() {
-  const win_type = "emotional";
+  const win_type = "Emotional";
   const defaultText = `Log your emotional wins here
 guitar jamming can count here, but you can deepen this by sharing music, chatting with friends/family, or doing something that genuinely sparks joy.
 

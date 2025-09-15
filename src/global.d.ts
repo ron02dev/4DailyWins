@@ -5,7 +5,7 @@ declare global {
    *~ existing declarations in the global namespace
    */
 
-  type win_type = "mental" | "physical" | "emotional" | "spiritual";
+  type win_type = "Mental" | "Physical" | "Emotional" | "Spiritual";
   type messageType = "success" | "loading" | "error" | "warning" | "";
   interface Win {
     win_type: win_type;

@@ -4,7 +4,7 @@ import TopicHandler from "../TopicHandler";
 import { useDailyWinContext } from "../../App";
 
 export default function MentalTopic() {
-  const win_type = "mental";
+  const win_type = "Mental";
   const defaultText = `Log your mental wins here
 Engaging in activities that stimulate your mind, such as reading, learning something new, or creating something.
 

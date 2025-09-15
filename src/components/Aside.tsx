@@ -1,6 +1,6 @@
 import "../css/aside.css";
 import "../css/calendar.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "react-calendar";
 import { useDailyWinContext } from "../App";
 import useDB from "../hooks/useDB";
@@ -16,30 +16,7 @@ interface Props {
 }
 
 export default function Aside({ handleHowToUse }: Props) {
-  const { appData, dispatch } = useDailyWinContext();
-  const [animationClass, setAnimationClass] = useState("animate__bounceInLeft");
-  const [showMessage, setShowMessage] = useState(false);
-
-  useEffect(() => {
-    if (appData.serverMessage) {
-      setShowMessage(true);
-      setAnimationClass("animate__bounceInLeft");
-      // Start timer to bounce out before hiding
-      const outTimer = setTimeout(() => {
-        setAnimationClass("animate__bounceOutLeft");
-        // After bounce out, hide the message
-        setTimeout(() => {
-          setShowMessage(false);
-          dispatch({
-            type: "SET_SERVER_MESSAGE",
-            payload: { serverMessage: "", messageType: "" },
-          });
-        }, 700); // 700ms is the duration of the bounceOutLeft animation
-      }, 1800); // Show message for 1.8s before animating out
-      return () => clearTimeout(outTimer);
-    }
-  }, [appData.serverMessage]);
-
+ 
   return (
     <div className="content-aside">
       <section className="calendar-section">
@@ -48,14 +25,15 @@ export default function Aside({ handleHowToUse }: Props) {
         <CalendarContainer />
       </section>
       <section className="link-and-msg">
-        {showMessage && (
+ 
+        {/* {showMessage && (
           <p
             key={appData.serverMessage}
             className={`server-message animate__animated ${animationClass} ${appData.messageType}`}
           >
             {appData.serverMessage.toUpperCase()}
           </p>
-        )}
+        )} */}
       </section>
       <button className="link-btn" onClick={handleHowToUse}>
         How To Use?
@@ -112,8 +90,8 @@ function CalendarContainer() {
         dispatch({
           type: "SET_SERVER_MESSAGE",
           payload: {
-            serverMessage: `viewing logged wins on ${id}`,
-            messageType: "warning",
+            serverMessage: `Viewing logged wins on ${id}`,
+            messageType: "success",
           },
         });
       } else if (id == currentDay) {

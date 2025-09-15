@@ -55,18 +55,18 @@ function WinHistoryView({ winHistory }: winHistoryProps) {
 
   useEffect(() => {
     const mentalWin = winHistory.find((win) => {
-      return win.win_type == "mental";
+      return win.win_type == "Mental";
     });
 
     const physicalWin = winHistory.find((win) => {
-      return win.win_type == "physical";
+      return win.win_type == "Physical";
     });
     const spiritualWin = winHistory.find((win) => {
-      return win.win_type == "spiritual";
+      return win.win_type == "Spiritual";
     });
 
     const emotionalWin = winHistory.find((win) => {
-      return win.win_type == "emotional";
+      return win.win_type == "Emotional";
     });
     // if array wins has mental wins
     mentalWin && setLoggedMentalWin(mentalWin.task_done);
@@ -76,9 +76,10 @@ function WinHistoryView({ winHistory }: winHistoryProps) {
   }, [winHistory]);
   return (
     <>
-      <div className="topic-content">
+      <div className="topic-content history">
         <p className="topic-title">Mental (Mind / Growth)</p>
         <textarea
+        id="mental-textarea"
           maxLength={500}
           className={"textarea history-textarea"}
           disabled={true}
@@ -88,9 +89,10 @@ function WinHistoryView({ winHistory }: winHistoryProps) {
         />
       </div>
 
-      <div className="topic-content">
+      <div className="topic-content history">
         <p className="topic-title">Physical (Body / Health)</p>
         <textarea
+        id="physical-textarea"
           maxLength={500}
           className={"textarea history-textarea"}
           disabled={true}
@@ -100,9 +102,10 @@ function WinHistoryView({ winHistory }: winHistoryProps) {
           }
         />
       </div>
-      <div className="topic-content">
+      <div className="topic-content history">
         <p className="topic-title">Spiritual (Purpose / Inner Self)</p>
         <textarea
+        id="spiritual-textarea"
           maxLength={500}
           className={"textarea history-textarea"}
           disabled={true}
@@ -112,11 +115,12 @@ function WinHistoryView({ winHistory }: winHistoryProps) {
           }
         />
       </div>
-      <div className="topic-content">
+      <div className="topic-content history">
         <p className="topic-title">
           Emotional / Social (Relationships & Self-Care)
         </p>
         <textarea
+         id="emotional-textarea"
           maxLength={500}
           className={"textarea history-textarea"}
           disabled={true}

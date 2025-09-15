@@ -119,6 +119,17 @@
   border-radius: 5px;
 }
 
-.topic-content .history-textarea {
-  margin-top: 20px;
+.topic-content.history{
+border: 1px solid white;
+display: flex;
+flex-direction: column;
+gap: 15px;
+height: 100%;
 }
+
+.topic-content.history textarea{
+ 
+ height: 100%;
+}
+
+

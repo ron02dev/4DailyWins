@@ -4,7 +4,7 @@ import TopicHandler from "../TopicHandler";
 import { useDailyWinContext } from "../../App";
 
 export default function PhysicalTopic() {
-  const win_type = "physical";
+  const win_type = "Physical";
   const defaultText = `Log your physical wins here
 Moving your body through activities like walking, running, or the gym.
 
