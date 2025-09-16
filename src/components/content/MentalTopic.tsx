@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 import TopicHandler from "../TopicHandler";
-import { useDailyWinContext } from "../../App";
+import { useDailyWinContext } from "../../hooks/useDailyWinContext";
+
 
 export default function MentalTopic() {
   const win_type = "Mental";

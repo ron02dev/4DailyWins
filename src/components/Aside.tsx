@@ -2,7 +2,7 @@ import "../css/aside.css";
 import "../css/calendar.css";
 import { useState } from "react";
 import Calendar from "react-calendar";
-import { useDailyWinContext } from "../App";
+import { useDailyWinContext } from "../hooks/useDailyWinContext";
 import useDB from "../hooks/useDB";
 import "animate.css";
 import useDate from "../hooks/useDate";

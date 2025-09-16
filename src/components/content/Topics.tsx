@@ -4,7 +4,8 @@ import PhysicalTopic from "./PhysicalTopic";
 import SpiritualTopic from "./SpiritualTopic";
 import "../../css/topic.css";
 import { useEffect, useState } from "react";
-import { useDailyWinContext } from "../../App";
+import { useDailyWinContext } from "../../hooks/useDailyWinContext";
+
 
 export default function Topics() {
   const { appData } = useDailyWinContext();

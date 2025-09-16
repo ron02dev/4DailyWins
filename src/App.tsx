@@ -1,13 +1,7 @@
 import Aside from "./components/Aside";
 import "animate.css";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Topics from "./components/content/Topics";
 import "./css/App.css";
@@ -111,7 +105,7 @@ function reducer(
 }
 
 // CONTEXT INITIALIZED
-const DailyWinContext = createContext<DailyWinContext | null>(null);
+export const DailyWinContext = createContext<DailyWinContext | null>(null);
 
 // APP--APP--APP--APP--APP
 function App() {
@@ -228,7 +222,6 @@ function App() {
     setIsHowActive(!isHowActive);
   }
 
-  
   useEffect(() => {
     if (appData.serverMessage.length > 2) {
       if (appData.messageType == "success") {
@@ -292,11 +285,3 @@ function App() {
 }
 
 export default App;
-
-export function useDailyWinContext() {
-  const context = useContext(DailyWinContext);
-  if (!context) {
-    throw new Error("useDailyWinContext must be used inside TodoProvider");
-  }
-  return context;
-}

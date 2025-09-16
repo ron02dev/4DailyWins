@@ -1,4 +1,4 @@
-import { useDailyWinContext } from "../App";
+import { useDailyWinContext } from "../hooks/useDailyWinContext";
 
 interface Props extends Win {
   win_type: win_type;
