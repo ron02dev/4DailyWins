@@ -228,17 +228,26 @@ function App() {
     setIsHowActive(!isHowActive);
   }
 
-  
   useEffect(() => {
     if (appData.serverMessage.length > 2) {
-      if (appData.messageType == "success") {
-        toast.success(appData.serverMessage);
-      } else if (appData.messageType == "error") {
-        toast.error(appData.serverMessage);
-      } else if (appData.messageType == "warning") {
-        toast.warn(appData.serverMessage);
-      } else {
-        toast.info(appData.serverMessage);
+      switch (appData.messageType) {
+        case "success":
+          const rand = Math.floor(Math.random() * 3) + 1;
+          console.log(rand);
+          if (rand == 2) {
+            toast.info("Don't forget to your save progress");
+          }
+          toast.success(appData.serverMessage);
+
+          break;
+        case "error":
+          toast.error(appData.serverMessage);
+          break;
+        case "warning":
+          toast.warn(appData.serverMessage);
+          break;
+        default:
+          toast.info(appData.serverMessage);
       }
     }
   }, [appData.serverMessage]);
