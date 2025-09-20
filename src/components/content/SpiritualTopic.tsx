@@ -5,15 +5,7 @@ import { useDailyWinContext } from "../../hooks/useDailyWinContext";
 
 export default function SpiritualTopic() {
   const win_type = "Spiritual";
-  const defaultText = `Log your Spiritual wins here
-Activities that connect you to your purpose or provide inner peace, like praying, meditating, or journaling.
-
-    EXAMPLES:
-  - Meditate or pray for 10 minutes
-  - Write down 3 things you’re grateful for
-  - Spend time in nature mindfully
-  - Do one act of kindness 
-  `;
+   const defaultText = `...`;
   const [task, setTask] = useState<string | null>(defaultText);
   const { appData } = useDailyWinContext();
   const [isChecked, setIsChecked] = useState<boolean>(false);

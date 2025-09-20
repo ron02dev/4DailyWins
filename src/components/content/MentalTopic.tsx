@@ -3,18 +3,9 @@ import { useEffect, useState } from "react";
 import TopicHandler from "../TopicHandler";
 import { useDailyWinContext } from "../../hooks/useDailyWinContext";
 
-
 export default function MentalTopic() {
   const win_type = "Mental";
-  const defaultText = `Log your mental wins here
-Engaging in activities that stimulate your mind, such as reading, learning something new, or creating something.
-
-    EXAMPLES:
-  - programming/studying
-  - Read 10 pages of a book
-  - Learn a new skill online
-  - Solve a puzzle or do brain games
-  `;
+  const defaultText = `...`;
   const [task, setTask] = useState<string | null>(defaultText);
   const { appData } = useDailyWinContext();
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -38,13 +29,13 @@ Engaging in activities that stimulate your mind, such as reading, learning somet
     <div className="topic-content">
       <p className="topic-title">Mental (Mind / Growth)</p>
 
-       <TopicHandler
-          setTask={setTask}
-          win_type={win_type}
-          task_done={task ?? ""}
-          isChecked={isChecked}
-          setIsChecked={setIsChecked}
-        />
+      <TopicHandler
+        setTask={setTask}
+        win_type={win_type}
+        task_done={task ?? ""}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
+      />
     </div>
   );
 }

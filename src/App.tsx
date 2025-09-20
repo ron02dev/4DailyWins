@@ -232,7 +232,6 @@ function App() {
             toast.info("Don't forget to your save progress");
           }
           toast.success(appData.serverMessage);
-
           break;
         case "error":
           toast.error(appData.serverMessage);

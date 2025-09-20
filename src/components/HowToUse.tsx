@@ -1,19 +1,17 @@
 import "../css/HowTo.css";
 export default function HowToUse() {
   return (
-    <div className="howto-content">
-      <div className="howto-container">
-        <h1>How to Use 4 Daily Wins</h1>
-        <ol>
+    <div className="howto-container">
+      <div className="howto-content">
+        <h2 className="title">How To Use 4 Daily Wins</h2>
+        <ul className="info">
           <li>
-            <strong>Log Your Wins:</strong>
+            <h3 className="title">Log Your Wins:</h3>
             <ul>
+              {" "}
               <li>
-                On the main page, you will see four categories:{" "}
-                <span style={{ color: "#ff7474" }}>Mental</span>,{" "}
-                <span style={{ color: "#f18063e5" }}>Physical</span>,{" "}
-                <span style={{ color: "#86bff5e5" }}>Spiritual</span>, and{" "}
-                <span style={{ color: "#b186f5e5" }}>Emotional</span>.
+                On the main page, you will see four categories: Mental,
+                Physical, Spiritual, and Emotional.
               </li>
               <li>
                 For each category, write your win for the day in the provided
@@ -25,8 +23,9 @@ export default function HowToUse() {
             </ul>
           </li>
           <li>
-            <strong>View Your Progress:</strong>
+            <h3 className="title">View Your Progress:</h3>
             <ul>
+              {" "}
               <li>
                 Your completed wins will be highlighted on the calendar with a
                 green color.
@@ -38,8 +37,9 @@ export default function HowToUse() {
             </ul>
           </li>
           <li>
-            <strong>History & Editing:</strong>
+            <h3 className="title">History & Editing:</h3>
             <ul>
+              {" "}
               <li>
                 You can view your win history by navigating through the
                 calendar.
@@ -50,18 +50,54 @@ export default function HowToUse() {
             </ul>
           </li>
           <li>
-            <strong>Tips:</strong>
+            <h3 className="title">Tips:</h3>
             <ul>
+              {" "}
               <li>
                 Try to log at least one win in each category every day for a
                 balanced approach.
               </li>
+              <li>
+                <a
+                  target="_blank"
+                  href="https://www.instagram.com/reel/DNZ8PYwNu_a/"
+                >
+                  Source of Idea
+                </a>
+              </li>
             </ul>
           </li>
-        </ol>
-        <p style={{ marginTop: "2rem", fontStyle: "italic", color: "#555" }}>
-          Stay consistent and celebrate your daily progress!
-        </p>
+          <li>
+            <h3 className="title">Win Types & Examples</h3>
+            <ul className="win-types">
+              <li>
+                <h5 className="win-title">Mental Win</h5>
+                <p className="win-desc">
+                  Engaging in activities that stimulate your mind, such as
+                  reading, learning something new, or creating something.
+                </p>
+              </li>
+              <li>
+                <h5 className="win-title">Physical Win</h5>
+                <p className="win-desc">
+                  Moving your body through activities like walking, running, or the gym.
+                </p>
+              </li>
+                <li>
+                <h5 className="win-title">Spiritual Win</h5>
+                <p className="win-desc">
+                  Activities that connect you to your purpose or provide inner peace, like praying, meditating, or journaling.
+                </p>
+              </li>
+               <li>
+                <h5 className="win-title">Emotional Win</h5>
+                <p className="win-desc">
+                  Guitar jamming can count here, but you can deepen this by sharing music, chatting with friends/family, or doing something that genuinely sparks joy.
+                </p>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
   );

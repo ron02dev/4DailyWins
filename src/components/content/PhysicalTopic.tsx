@@ -3,18 +3,9 @@ import { useEffect, useState } from "react";
 import TopicHandler from "../TopicHandler";
 import { useDailyWinContext } from "../../hooks/useDailyWinContext";
 
-
 export default function PhysicalTopic() {
   const win_type = "Physical";
-  const defaultText = `Log your physical wins here
-Moving your body through activities like walking, running, or the gym.
-
-    EXAMPLES:
-  -Do 20 push-ups or a short workout
-  - Drink 8 glasses of water
-  - Sleep 7–8 hours
-  - Eat a healthy, balanced meal 
-  `;
+  const defaultText = `...`;
   const [task, setTask] = useState<string | null>(defaultText);
   const { appData } = useDailyWinContext();
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -28,7 +19,7 @@ Moving your body through activities like walking, running, or the gym.
       // if array wins has mental wins
       if (currentWin) {
         const task = currentWin.task_done || defaultText;
-        
+
         setIsChecked(true);
         setTask(task);
       }

@@ -6,15 +6,7 @@ import { useDailyWinContext } from "../../hooks/useDailyWinContext";
 
 export default function EmotionalTopic() {
   const win_type = "Emotional";
-  const defaultText = `Log your emotional wins here
-guitar jamming can count here, but you can deepen this by sharing music, chatting with friends/family, or doing something that genuinely sparks joy.
-
-    EXAMPLES:
-  - Call or message someone you care about
-  - Do something that makes you laugh or relax
-  - Practice positive affirmations
-  - Help someone without expecting anything back
-  `;
+  const defaultText = `...`;
   const [task, setTask] = useState<string | null>(defaultText);
   const { appData } = useDailyWinContext();
   const [isChecked, setIsChecked] = useState<boolean>(false);

@@ -24,17 +24,7 @@ export default function Aside({ handleHowToUse }: Props) {
 
         <CalendarContainer />
       </section>
-      <section className="link-and-msg">
- 
-        {/* {showMessage && (
-          <p
-            key={appData.serverMessage}
-            className={`server-message animate__animated ${animationClass} ${appData.messageType}`}
-          >
-            {appData.serverMessage.toUpperCase()}
-          </p>
-        )} */}
-      </section>
+     
       <button className="link-btn" onClick={handleHowToUse}>
         How To Use?
       </button>
